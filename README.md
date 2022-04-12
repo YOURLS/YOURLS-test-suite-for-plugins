@@ -11,18 +11,18 @@ This tool assumes basic knowledge of command line tools and of the [PHPUnit](htt
 
 ## Usage
 
-0. **Have a plugin to test**
+0. **Have a plugin with tests**   
     See the short guide about writing unit tests for YOURLS plugins.
 
-1. **Install the YOURLS test suite for plugins**
+1. **Install the YOURLS test suite for plugins**   
     In `my-cool-plugin/` :
     ```shell
     $ git clone https://github.com/YOURLS/YOURLS-test-suite-for-plugins test-suite
     ```
 
-2. **Install the YOURLS test suite and the testing database**
+2. **Install the YOURLS test suite and the testing database**   
     ```shell
-    $ bash test-suite/src/install-test-suite.sh <db-name> <db-user> <db-password>  [db-host, default is localhost] [YOURLS-version, default is master]
+    $ bash test-suite/src/install-test-suite.sh <db-name> <db-user> <db-password> [db-host, default localhost] [YOURLS version, default master]
     ```
     Examples  :
     ```shell
@@ -30,7 +30,7 @@ This tool assumes basic knowledge of command line tools and of the [PHPUnit](htt
     $ bash test-suite/src/install-test-suite.sh yourlstest mydbuser mydbpassword mysql.myserver.com:666 1.8.2
     ```
 
-3. **Run your plugin unit tests**
+3. **Run your plugin unit tests**   
     Once you have written unit tests, run them :
     ```sh
     $ phpunit -c ./test-suite/src/phpunit.xml
@@ -55,5 +55,5 @@ This tool assumes basic knowledge of command line tools and of the [PHPUnit](htt
 
 ## License
 
-Free software. Do whatever the hell you want with it.
+Free software. Do whatever the hell you want with it.   
 YOURLS is released under the [MIT license](LICENSE).
