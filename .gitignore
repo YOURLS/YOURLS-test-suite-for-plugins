@@ -1,0 +1,8 @@
+# Env
+Thumbs.db
+Desktop.ini
+.DS_Store
+.idea
+
+# Tests
+.phpunit.result.cache

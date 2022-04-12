@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit colors="true" bootstrap="./bootstrap.php" >
+    <testsuites>
+        <!-- Testsuite: We're looking for test-*php in <plugindir>/tests -->
+        <testsuite name="Plugin Tests">
+            <directory prefix="test-" suffix=".php">../../tests</directory>
+        </testsuite>
+    </testsuites>
+    <coverage>
+        <!-- Code coverage if available: all php file in <plugindir> except tests -->
+        <include>
+            <directory suffix=".php">../../</directory>
+        </include>
+        <exclude>
+            <directory suffix=".php">../../tests</directory>
+            <directory suffix=".php">../../YOURLS-test-suite</directory>
+        </exclude>
+    </coverage>
+    <php>
+        <!-- Environment needed by YOURLS test suite itself -->
+        <!-- Constants -->
+        <const name="PHPUNIT_TESTSUITE" value="true" />
+        <!-- Login -->
+        <request name="username" value="yourls"/>
+        <request name="password" value="secret-ci-test"/>
+        <!-- Install -->
+        <server name="SERVER_SOFTWARE" value="TRAVIS APACHE"/>
+        <!-- Stats data -->
+        <server name="HTTP_USER_AGENT" value="Travis-CI (PHPUnit\3.7)"/>
+        <server name="HTTP_HOST" value="travis.com"/>
+        <server name="HTTP_CLIENT_IP" value="10.10.10.1"/>
+        <!-- API -->
+        <request name="format" value="simple"/>
+    </php>
+</phpunit>
