@@ -32,14 +32,12 @@ if(
     define('YOURLS_PLUGINDIR',   dirname(dirname(dirname(__DIR__))));
 }
 
-echo "YOURLS_PLUGINDIR: ".YOURLS_PLUGINDIR."\n";
-
 // YOURLS Unit tests use a sample language file to test translations - don't use it here
 define('YOURLS_LANG', '');
 
-// Get error reporting level & suppress warnings triggered by YOURLS test suite when redefining constants
+// Get error reporting level & suppress warnings and notices triggered by YOURLS test suite when redefining constants
 $errorReportingLevel = error_reporting();
-error_reporting(E_ALL & ~E_WARNING);
+error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING);
 
 // Load YOURLS and its test suite
 if(!file_exists(dirname(__DIR__) . '/YOURLS/tests/bootstrap.php')) {
