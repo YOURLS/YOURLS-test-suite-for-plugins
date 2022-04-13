@@ -30,7 +30,8 @@ error_reporting(E_ALL & ~E_WARNING);
 
 // Load YOURLS and its test suite
 if(!file_exists(dirname(__DIR__) . '/YOURLS/tests/bootstrap.php')) {
-    die("YOURLS test suite not found. Please run script `install-test-suite.sh`\n");
+    fwrite(STDERR, "YOURLS test suite not found. Please run script `install-test-suite.sh`\n");
+    exit(1);
 }
 require_once dirname(__DIR__) . '/YOURLS/tests/bootstrap.php';
 
@@ -39,11 +40,16 @@ error_reporting($errorReportingLevel);
 
 // Load plugin
 $plugin = dirname(dirname(__DIR__)).'/plugin.php';
+printf("Loading plugin file: %s\n", $plugin);
+
 $plugin_data = yourls_get_plugin_data($plugin);
 $activate = yourls_activate_plugin($plugin);
+
 if( $activate !== true ) {
-    die("Failed to activate plugin. Error was: $activate\n");
+    fwrite(STDERR, "Failed to activate plugin. Error was: $activate\n");
+    exit(1);
 }
+
 printf("Plugin Loaded : %s by %s (%s)\n\n",
     yourls_kses_decode_entities($plugin_data['Plugin Name']),
     yourls_kses_decode_entities($plugin_data["Author"]),
