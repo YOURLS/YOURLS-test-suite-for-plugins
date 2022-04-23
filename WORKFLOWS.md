@@ -72,7 +72,7 @@ This workflow will run every time a commit or a pull request is made ; you can a
 
 What it does :
 * install PHP and the needed dependencies
-* test code against PHP `7.4`, `8.0` and `8.1` (YOURLS requirements at the time of writing)
+* run multiple jobs against PHP `7.4`, `8.0` and `8.1` (YOURLS requirements at the time of writing)
 * install and run the YOURLS test suite for plugins
 
 # Automatically check if there's a new YOURLS release
@@ -129,8 +129,8 @@ jobs:
 ```
 
 What it does :
-* Runs once a week (given the release pace of YOURLS, you could even safely run this once a month) but you can also trigger it manually, and download the latest YOURLS tag
-* Updates and commits `.github/.latest-yourls-release` if there's a new release
+* Runs manually and automatically once a week (given the release pace of YOURLS, you could even safely run this once a month), and downloads the latest YOURLS tag
+* Updates `.github/.latest-yourls-release` if there's a new release
 * Opens a new issue if there's a new release, as a reminder to check things
 
 Happy automating !
