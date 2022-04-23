@@ -75,7 +75,7 @@ What it does :
 * test code against PHP `7.4`, `8.0` and `8.1` (YOURLS requirements at the time of writing)
 * install and run the YOURLS test suite for plugins
 
-# Run tests every time there's a new YOURLS release
+# Automatically check if there's a new YOURLS release
 
 Maybe your plugin is fine as-is and you won't update it for years. But maybe a future YOURLS version will change something and break it ? Here's how to find out.
 
@@ -87,13 +87,9 @@ Create and commit two files :
 name: Check if new YOURLS release
 
 on:
-  # Run every Monday at 13:37
+  # Run every Monday
   schedule:
     - cron:  '37 13 * * 1'
-  # Run on every push or pull request to `master`
-  push:
-  pull_request:
-    branches: [ master ]
   # Also allow manually triggering the workflow.
   workflow_dispatch:
 
@@ -101,26 +97,40 @@ jobs:
   get-version:
     runs-on: ubuntu-latest
     steps:
+
       - name: Checkout code
         uses: actions/checkout@v3
-      - name: Fetch latest release version
+        
+      - name: Fetch release version
         run: |
           curl -sL https://api.github.com/repos/yourls/yourls/releases/latest | \
           jq -r ".tag_name" > .github/.latest-yourls-release
+          
       - name: Commit and push if change
-        run: |-
+        id: commit-if-new
+        run: |
           git diff
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git add -A
-          git commit -m "New YOURLS release" || exit 0
+          git commit -m "New YOURLS release" && echo "::set-output name=NEWVERSION::new"
           git push
+          
+      - name: Create Issue on new release
+        if: steps.commit-if-new.outputs.NEWVERSION == 'new'
+        uses: mrdoodles/open-issue@v1.0.0
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          title: New YOURLS release !
+          body: |
+            There is a new YOURLS release available: https://github.com/YOURLS/YOURLS/releases
+
+            Please check if your plugin is compatible with this release !
 ```
 
 What it does :
-* Runs once a week (given the release pace of YOURLS, you can even safely run this once a month)
-* Also runs everytime you update your plugin
+* Runs once a week (given the release pace of YOURLS, you could even safely run this once a month) but you can also trigger it manually, and download the latest YOURLS tag
 * Updates and commits `.github/.latest-yourls-release` if there's a new release
-* Since the previous workflow runs on every commit, it will be triggered to run tests.
+* Opens a new issue if there's a new release, as a reminder to check things
 
 Happy automating !
