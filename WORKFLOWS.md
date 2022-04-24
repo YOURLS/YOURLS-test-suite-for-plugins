@@ -48,7 +48,7 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Use PHP ${{ matrix.php }}
-        uses: shivammathur/setup-php@2
+        uses: shivammathur/setup-php@v2
         with:
           php-version: ${{ matrix.php }}
           extensions: mbstring, curl, zip, dom, simplexml, intl, pdo_mysql
@@ -66,6 +66,7 @@ jobs:
 
       - name: Run the tests
         run: phpunit -c ./test-suite/src/phpunit.xml
+        
 ```
 
 This workflow will run every time a commit or a pull request is made ; you can also run it manually.
@@ -126,6 +127,7 @@ jobs:
             There is a new YOURLS release available: https://github.com/YOURLS/YOURLS/releases
 
             Please check if your plugin is compatible with this release !
+            
 ```
 
 What it does :
